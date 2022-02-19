@@ -3,10 +3,10 @@
 #include <unistd.h>
 #include <stdio.h>
 
-#include "header.h"
 #include "question.h"
 #include "message.h"
-#include "resource_records/a.h"
+#include "messages/a/a.h"
+#include "messages/aaaa/aaaa.h"
 
 int dns_query(DNSMessage *response, const DNSMessage *message, const char *name_server) {
     int sock;
@@ -57,7 +57,7 @@ int main() {
             .question = {
                     .qname = "www.google.com",
                     .qclass = CLASS_IN,
-                    .qtype = TYPE_A
+                    .qtype = TYPE_AAAA
             }
     };
 
@@ -67,8 +67,15 @@ int main() {
         if(response.answers[i].type == TYPE_A) {
             DNSARecord a;
             dns_cast_resource_to_a(&a, &response.answers[i]);
-            char ip[16];
-            inet_ntop(AF_INET, &a.address, ip, 16);
+            char ip[INET_ADDRSTRLEN];
+            inet_ntop(AF_INET, &a.address, ip, INET_ADDRSTRLEN);
+            printf("ADDR: %s\n", ip);
+        }
+        if(response.answers[i].type == TYPE_AAAA) {
+            DNSAAAARecord aaaa;
+            dns_cast_resource_to_aaaa(&aaaa, &response.answers[i]);
+            char ip[INET6_ADDRSTRLEN];
+            inet_ntop(AF_INET6, &aaaa.address, ip, INET6_ADDRSTRLEN);
             printf("ADDR: %s\n", ip);
         }
     }
