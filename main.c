@@ -6,6 +6,7 @@
 #include "header.h"
 #include "question.h"
 #include "message.h"
+#include "resource_records/a.h"
 
 int dns_query(DNSMessage *response, const DNSMessage *message, const char *name_server) {
     int sock;
@@ -56,11 +57,21 @@ int main() {
             .question = {
                     .qname = "www.google.com",
                     .qclass = CLASS_IN,
-                    .qtype = TYPE_HINFO
+                    .qtype = TYPE_A
             }
     };
 
     dns_query(&response, &request, "8.8.8.8");
+
+    for(size_t i = 0; i < response.header.ancount; i++) {
+        if(response.answers[i].type == TYPE_A) {
+            DNSARecord a;
+            dns_cast_resource_to_a(&a, &response.answers[i]);
+            char ip[16];
+            inet_ntop(AF_INET, &a.address, ip, 16);
+            printf("ADDR: %s\n", ip);
+        }
+    }
 
     return 0;
 }

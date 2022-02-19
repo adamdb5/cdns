@@ -40,9 +40,11 @@ size_t dns_question_unpack(DNSQuestion *question, const char *bytes) {
         strcat(question->qname, ".");
     }
     question->qname[i - 1] = '\0';
-    question->qtype = htons(*(uint16_t*)(bytes + i + 1));
-    question->qclass = htons(*(uint16_t*)(bytes + i + 3));
-
-    return i + 4;
+    i++;
+    question->qtype = htons(*(uint16_t*)(bytes + i));
+    i += 2;
+    question->qclass = htons(*(uint16_t*)(bytes + i));
+    i += 2;
+    return i;
 }
 

@@ -9,5 +9,7 @@ add_executable(cdns
         main.c
         header.c header.h
         question.c question.h
-        message.c message.h)
+        message.c message.h
+        resource_record.c resource_record.h
+        resource_records/a.h)
 

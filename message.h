@@ -7,10 +7,12 @@
 
 #include "header.h"
 #include "question.h"
+#include "resource_record.h"
 
 typedef struct {
     DNSHeader header;
     DNSQuestion question;
+    DNSResourceRecord answers[10];
 } DNSMessage;
 
 size_t dns_message_unpack(DNSMessage *message, const char *buffer);
