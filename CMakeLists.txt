@@ -3,4 +3,11 @@ project(cdns C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(cdns main.c header.h header.c question.c question.h message.c message.h)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
+
+add_executable(cdns
+        main.c
+        header.c header.h
+        question.c question.h
+        message.c message.h)
+

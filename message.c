@@ -20,6 +20,6 @@ size_t dns_message_unpack(DNSMessage *message, const char *buffer) {
     if(message->header.qdcount > 2)
         return 1; // Too many questions
 
-    len += dns_question_unpack(&message->question, buffer);
+    len += dns_question_unpack(&message->question, buffer + len);
     return len;
 }

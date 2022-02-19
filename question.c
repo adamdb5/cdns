@@ -3,6 +3,7 @@
 //
 
 #include <string.h>
+#include <netinet/in.h>
 #include "question.h"
 
 size_t dns_question_pack(char *bytes, const DNSQuestion *question) {
@@ -31,6 +32,17 @@ size_t dns_question_pack(char *bytes, const DNSQuestion *question) {
 }
 
 size_t dns_question_unpack(DNSQuestion *question, const char *bytes) {
+    size_t i = 0;
+    while(bytes[i] != '\0') {
+        char part_len = bytes[i++];
+        strncat(question->qname, bytes + i, part_len);
+        i += part_len;
+        strcat(question->qname, ".");
+    }
+    question->qname[i - 1] = '\0';
+    question->qtype = htons(*(uint16_t*)(bytes + i + 1));
+    question->qclass = htons(*(uint16_t*)(bytes + i + 3));
 
+    return i + 4;
 }
 
