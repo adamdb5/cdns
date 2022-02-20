@@ -1,1 +1,0 @@
-add_library(${PROJECT_NAME}_a STATIC a.c a.h)

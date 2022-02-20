@@ -1,6 +1,24 @@
-//
-// Created by adam on 19/02/2022.
-//
+/*
+ * Copyright (c) 2022 Adam Bruce
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 #include <string.h>
 #include <netinet/in.h>
@@ -38,7 +56,8 @@ size_t dns_resource_record_pack(char *bytes, const DNSResourceRecord *record) {
     return i + record->rdlength;
 }
 
-size_t dns_resource_record_unpack(DNSResourceRecord *record, const char *bytes, const char *question_root) {
+size_t dns_resource_record_unpack(DNSResourceRecord *record, const char *bytes,
+                                  const char *message_root) {
     size_t i = 0;
     size_t ptr_i = 0;
     int is_pointer = 0;
@@ -58,10 +77,10 @@ size_t dns_resource_record_unpack(DNSResourceRecord *record, const char *bytes, 
     }
 
     if(is_pointer) {
-        while(question_root[offset + ptr_i] != '\0') {
-            char part_len = question_root[offset + ptr_i];
+        while(message_root[offset + ptr_i] != '\0') {
+            char part_len = message_root[offset + ptr_i];
             ptr_i++;
-            strncat(record->name, question_root + offset + ptr_i, part_len);
+            strncat(record->name, message_root + offset + ptr_i, part_len);
             ptr_i += part_len;
             strcat(record->name, ".");
         }
@@ -80,5 +99,6 @@ size_t dns_resource_record_unpack(DNSResourceRecord *record, const char *bytes, 
 
     memcpy(record->rdata, bytes + i, record->rdlength);
 
-    return i + ptr_i;
+    // TODO: Work out why our reported length is 8 bytes too short
+    return i + ptr_i + 8;
 }
