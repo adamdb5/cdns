@@ -11,7 +11,7 @@ jobs:
         run: sudo apt install libcmocka-dev
 
       - name: Create Build files
-        run: cmake -S . -B build
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 
       - name: Build
         run: cmake --build build
