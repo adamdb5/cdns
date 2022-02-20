@@ -26,43 +26,56 @@
 #include <stddef.h>
 #include <stdint.h>
 
+/* Opcodes */
+#define OPCODE_QUERY 0
+#define OPCODE_IQUERY 1
+#define OPCODE_STATUS 2
+
+/* Return Codes */
+#define RCODE_OK 0
+#define RCODE_FORMAT_ERROR 1
+#define RCODE_SERVER_FAILURE 2
+#define RCODE_NAME_ERROR 3
+#define RCODE_NOT_IMPLEMENTED 4
+#define RCODE_REFUSED 5
+
 /**
  * Represents a DNS message header.
  */
 typedef struct {
-    uint16_t id;      /**< The ID of this message. */
+  uint16_t id; /**< The ID of this message. */
 
-    uint16_t qr;      /**< Whether this message is a query (0) or
-                           a response (1). */
+  uint16_t qr; /**< Whether this message is a query (0) or
+                    a response (1). */
 
-    uint16_t opcode;  /**< Specifies what kind of query this is. Possible values
-                           are OPCODE_QUERY, OPCODE_IQUERY and OPCODE_STATUS. */
+  uint16_t opcode; /**< Specifies what kind of query this is. Possible values
+                        are OPCODE_QUERY, OPCODE_IQUERY and OPCODE_STATUS. */
 
-    uint16_t aa;      /**< Specifies whether the responding name server is an
-                           authority for the given domain name. */
+  uint16_t aa; /**< Specifies whether the responding name server is an
+                    authority for the given domain name. */
 
-    uint16_t tc;      /**< Specifies whether this message was truncated. */
+  uint16_t tc; /**< Specifies whether this message was truncated. */
 
-    uint16_t rd;      /**< Specifies whether recursion should be used. */
+  uint16_t rd; /**< Specifies whether recursion should be used. */
 
-    uint16_t ra;      /**< Specifies whether recursion is supported by the name
-                           server. */
+  uint16_t ra; /**< Specifies whether recursion is supported by the name
+                    server. */
 
-    uint16_t z;       /**< Reserved. */
+  uint16_t z; /**< Reserved. */
 
-    uint16_t rcode;   /**< The response code. Possible values are RCODE_OK,
-                           RCODE_FORMAT_ERROR, RCODE_SERVER_FAILURE,
-                           RCODE_NAME_ERROR, RCODE_NOT_IMPLEMENTED and
-                           RCODE_REFUSED. */
+  uint16_t rcode; /**< The response code. Possible values are RCODE_OK,
+                       RCODE_FORMAT_ERROR, RCODE_SERVER_FAILURE,
+                       RCODE_NAME_ERROR, RCODE_NOT_IMPLEMENTED and
+                       RCODE_REFUSED. */
 
-    uint16_t qdcount; /**< The number of questions in this message
-                           (must be 1). */
+  uint16_t qdcount; /**< The number of questions in this message
+                         (must be 1). */
 
-    uint16_t ancount; /**< The number of answer records in this message. */
+  uint16_t ancount; /**< The number of answer records in this message. */
 
-    uint16_t nscount; /**< The number of authority records in this message. */
+  uint16_t nscount; /**< The number of authority records in this message. */
 
-    uint16_t arcount; /**< The number of additional records in this message. */
+  uint16_t arcount; /**< The number of additional records in this message. */
 } DNSHeader;
 
 /**
