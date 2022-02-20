@@ -17,4 +17,4 @@ jobs:
         run: cmake --build build/ --target all
 
       - name: Test
-        run ctest
+        run: ctest
