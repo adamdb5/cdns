@@ -20,42 +20,19 @@
  * SOFTWARE.
  */
 
-#ifndef CDNS_MESSAGE_H
-#define CDNS_MESSAGE_H
+#include <stdarg.h>
+#include <stddef.h>
+#include <setjmp.h>
+#include <cmocka.h>
 
-#include "test_header.h"
-#include "question.h"
-#include "resource_record.h"
+static void null_test_success(void **state) {
+  (void) state;
+}
 
-/**
- * Represents a DNS message.
- */
-typedef struct {
-    DNSHeader header;              /**< The message's header. */
+int main(void) {
+  const struct CMUnitTest tests[] = {
+      cmocka_unit_test(null_test_success)
+  };
 
-    DNSQuestion question;          /**< The message's question. */
-
-    DNSResourceRecord answers[10]; /**< The message's answers. Contains
-                                        header.ancount answers. */
-} DNSMessage;
-
-/**
- * Packs a DNS message into bytes.
- *
- * @param bytes The byte array / memory to pack into.
- * @param message The DNS message to pack.
- * @return The number of bytes packed.
- */
-size_t dns_message_pack(char *bytes, const DNSMessage *message);
-
-
-/**
- * Unpacks a DNS message from bytes.
- *
- * @param message The DNS message to unpack into.
- * @param bytes The byte array / memory to unpack.
- * @return The number of bytes unpacked.
- */
-size_t dns_message_unpack(DNSMessage *message, const char *bytes);
-
-#endif /* CDNS_MESSAGE_H */
+  return cmocka_run_group_tests(tests, NULL, NULL);
+}

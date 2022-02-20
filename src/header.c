@@ -21,7 +21,7 @@
  */
 
 #include <netinet/in.h>
-#include "header.h"
+#include "test_header.h"
 
 uint16_t dns_header_flags_pack(const DNSHeader *header) {
     uint16_t flags = 0;

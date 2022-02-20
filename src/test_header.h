@@ -20,8 +20,8 @@
  * SOFTWARE.
  */
 
-#ifndef CDNS_HEADER_H
-#define CDNS_HEADER_H
+#ifndef CDNS_TEST_HEADER_H
+#define CDNS_TEST_HEADER_H
 
 #include <stddef.h>
 #include <stdint.h>
@@ -99,4 +99,4 @@ size_t dns_header_pack(char *bytes, const DNSHeader *header);
  */
 size_t dns_header_unpack(DNSHeader *header, const char *bytes);
 
-#endif /* CDNS_HEADER_H */
+#endif /* CDNS_TEST_HEADER_H */
