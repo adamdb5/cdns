@@ -1,0 +1,15 @@
+name: Build and Test
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create build directory
+        run: mkdir build
+      - name: CMake build
+        run: cmake -Bbuild -H.
+      - name: Make
+        run: cmake --build build/ --target all
+      - name: Test
+        run ctest
