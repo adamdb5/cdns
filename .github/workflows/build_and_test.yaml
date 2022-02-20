@@ -8,7 +8,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install cmocka
-        run: apt install libcmocka-dev
+        run: sudo apt install libcmocka-dev
 
       - name: Create build directory
         run: mkdir build
