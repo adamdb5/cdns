@@ -17,4 +17,4 @@ jobs:
         run: cmake --build build
 
       - name: Test
-        run: ctest --test-dir Build/test --extra-verbose
+        run: ctest --test-dir build/test --extra-verbose
