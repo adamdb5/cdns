@@ -25,13 +25,18 @@
 #include <string.h>
 
 size_t dns_message_pack(char *bytes, const DNSMessage *message) {
-  size_t len = 0;
+  size_t cnt, len;
 
   if (message->header.qdcount > 1)
     return 0; /* Too many questions */
 
-  len += dns_header_pack(bytes, &message->header);
+  len = dns_header_pack(bytes, &message->header);
   len += dns_question_pack(bytes + len, &message->question);
+
+  for (cnt = 0; cnt < message->header.ancount && cnt < 10; cnt++) {
+    len += dns_resource_record_pack(bytes + len, message->answers + cnt);
+  }
+
   return len;
 }
 

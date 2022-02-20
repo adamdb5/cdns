@@ -27,6 +27,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <netinet/in.h>
+
 #include "question.h"
 
 static void question_pack_qname(void **state) {
