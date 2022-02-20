@@ -1,7 +1,7 @@
 name: Build and Test
 on: [push]
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -10,14 +10,11 @@ jobs:
       - name: Install cmocka
         run: sudo apt install libcmocka-dev
 
-      - name: Create build directory
-        run: mkdir build
+      - name: Create Build files
+        run: cmake -S . -B build
 
-      - name: CMake build
-        run: cmake -Bbuild -H.
-
-      - name: Make
-        run: cmake --build build/ --target all
+      - name: Build
+        run: cmake --build build
 
       - name: Test
-        run: ctest
+        run: cmake --build build --target test
