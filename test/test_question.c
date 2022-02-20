@@ -20,20 +20,97 @@
  * SOFTWARE.
  */
 
+#include <setjmp.h>
 #include <stdarg.h>
 #include <stddef.h>
-#include <setjmp.h>
 #include <cmocka.h>
+#include <string.h>
+#include <stdio.h>
+#include <netinet/in.h>
+#include "question.h"
 
-static void null_test_success(void **state) {
-  (void) state;
+static void question_pack_qname(void **state) {
+  DNSQuestion question;
+  char buffer[512];
+  char expected[15];
+
+  memset(&question, 0, sizeof(DNSQuestion));
+  strcpy(question.qname, "adambruce.net");
+  sprintf(expected, "%cadambruce%cnet", 9, 3);
+
+  dns_question_pack(buffer, &question);
+  assert_memory_equal(buffer, &expected, 14);
+}
+
+static void question_pack_qtype(void **state) {
+  DNSQuestion question;
+  char buffer[512];
+  uint16_t expected;
+
+  memset(&question, 0, sizeof(DNSQuestion));
+  strcpy(question.qname, "adambruce.net");
+  question.qtype = TYPE_AAAA;
+
+  dns_question_pack(buffer, &question);
+  expected = htons(TYPE_AAAA);
+  assert_memory_equal(buffer + 15, &expected, 2);
+}
+
+static void question_pack_qclass(void **state) {
+  DNSQuestion question;
+  char buffer[512];
+  uint16_t expected;
+
+  memset(&question, 0, sizeof(DNSQuestion));
+  strcpy(question.qname, "adambruce.net");
+  question.qtype = TYPE_AAAA;
+  question.qclass = CLASS_IN;
+
+  dns_question_pack(buffer, &question);
+  expected = htons(CLASS_IN);
+  assert_memory_equal(buffer + 17, &expected, 2);
+}
+
+static void question_unpack_qname(void **state) {
+  DNSQuestion question;
+  char buffer[512] = "\x09\x61\x64\x61\x6d\x62\x72\x75\x63\x65\x03\x6e\x65"
+                     "\x74\x00\x00\x1c\x00\x01";
+  char expected[14] = "adambruce.net";
+
+  memset(&question, 0, sizeof(DNSQuestion));
+
+  dns_question_unpack(&question, buffer);
+  assert_memory_equal(question.qname, &expected, 13);
+}
+
+static void question_unpack_qtype(void **state) {
+  DNSQuestion question;
+  char buffer[512] = "\x09\x61\x64\x61\x6d\x62\x72\x75\x63\x65\x03\x6e\x65"
+                     "\x74\x00\x00\x1c\x00\x01";
+
+  dns_question_unpack(&question, buffer);
+  assert_int_equal(question.qtype, TYPE_AAAA);
+}
+
+static void question_unpack_qclass(void **state) {
+  DNSQuestion question;
+  char buffer[512] = "\x09\x61\x64\x61\x6d\x62\x72\x75\x63\x65\x03\x6e\x65"
+                     "\x74\x00\x00\x1c\x00\x01";
+
+  dns_question_unpack(&question, buffer);
+  assert_int_equal(question.qclass, CLASS_IN);
 }
 
 int main(void) {
   const struct CMUnitTest tests[] = {
-      cmocka_unit_test(null_test_success)
+      cmocka_unit_test(question_pack_qname),
+      cmocka_unit_test(question_pack_qtype),
+      cmocka_unit_test(question_pack_qclass),
+
+      cmocka_unit_test(question_unpack_qname),
+      cmocka_unit_test(question_unpack_qtype),
+      cmocka_unit_test(question_unpack_qclass),
   };
 
   return cmocka_run_group_tests(tests, NULL, NULL);
 }
-
