@@ -50,18 +50,22 @@ size_t dns_question_pack(char *bytes, const DNSQuestion *question) {
 }
 
 size_t dns_question_unpack(DNSQuestion *question, const char *bytes) {
-    size_t i = 0;
-    while(bytes[i] != '\0') {
-        char part_len = bytes[i++];
-        strncat(question->qname, bytes + i, part_len);
-        i += part_len;
-        strcat(question->qname, ".");
-    }
-    question->qname[i - 1] = '\0';
-    i++;
-    question->qtype = htons(*(uint16_t*)(bytes + i));
-    i += 2;
-    question->qclass = htons(*(uint16_t*)(bytes + i));
-    i += 2;
-    return i;
+  size_t i = 0;
+
+  /* Need to zero out the question as we're using strncat. */
+  memset(question, 0, sizeof(DNSQuestion));
+
+  while (bytes[i] != '\0') {
+    char part_len = bytes[i++];
+    strncat(question->qname, bytes + i, part_len);
+    i += part_len;
+    strcat(question->qname, ".");
+  }
+  question->qname[i - 1] = '\0';
+  i++;
+  question->qtype = htons(*(uint16_t *)(bytes + i));
+  i += 2;
+  question->qclass = htons(*(uint16_t *)(bytes + i));
+  i += 2;
+  return i;
 }
