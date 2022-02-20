@@ -102,6 +102,30 @@ static void question_unpack_qclass(void **state) {
   assert_int_equal(question.qclass, CLASS_IN);
 }
 
+static void question_pack_byte_count_1(void **state) {
+  DNSQuestion question;
+  size_t byte_count;
+  char buffer[512];
+
+  strcpy(question.qname, "adambruce.net");
+  question.qclass = CLASS_IN;
+  question.qtype = TYPE_A;
+
+  byte_count = dns_question_pack(buffer, &question);
+  assert_int_equal(byte_count, 19);
+}
+
+static void question_unpack_byte_count_1(void **state) {
+  DNSQuestion header;
+  size_t byte_count;
+  char buffer[] = "\x03\x61\x70\x69\x06\x67\x69\x74\x68\x75\x62\x03\x63\x6f"
+                  "\x6d\x00\x00\x01\x00\x01";
+
+
+  byte_count = dns_question_unpack(&header, buffer);
+  assert_int_equal(byte_count, 20);
+}
+
 int main(void) {
   const struct CMUnitTest tests[] = {
       cmocka_unit_test(question_pack_qname),
@@ -111,6 +135,9 @@ int main(void) {
       cmocka_unit_test(question_unpack_qname),
       cmocka_unit_test(question_unpack_qtype),
       cmocka_unit_test(question_unpack_qclass),
+
+      cmocka_unit_test(question_pack_byte_count_1),
+      cmocka_unit_test(question_unpack_byte_count_1),
   };
 
   return cmocka_run_group_tests(tests, NULL, NULL);

@@ -325,39 +325,64 @@ static void header_unpack_arcount(void **state) {
   assert_int_equal(header.arcount, 6);
 }
 
+static void header_pack_byte_count(void **state) {
+  DNSHeader header;
+  size_t byte_count;
+  char buffer[512];
+
+  header.id = 0xbeef;
+  header.rd = 1;
+  header.opcode = OPCODE_STATUS;
+
+  byte_count = dns_header_pack(buffer, &header);
+  assert_int_equal(byte_count, 12);
+}
+
+static void header_unpack_byte_count(void **state) {
+  DNSHeader header;
+  size_t byte_count;
+  char buffer[] = "\xbe\xef\x81\x00\x00\x00\x00\x00\x00\x00\x00\x00";
+
+  byte_count = dns_header_unpack(&header, buffer);
+  assert_int_equal(byte_count, 12);
+}
+
 int main(void) {
   const struct CMUnitTest tests[] = {
-    cmocka_unit_test(header_flags_pack_qr),
-    cmocka_unit_test(header_flags_pack_opcode),
-    cmocka_unit_test(header_flags_pack_aa),
-    cmocka_unit_test(header_flags_pack_tc),
-    cmocka_unit_test(header_flags_pack_rd),
-    cmocka_unit_test(header_flags_pack_ra),
-    cmocka_unit_test(header_flags_pack_z),
-    cmocka_unit_test(header_flags_pack_rcode),
+      cmocka_unit_test(header_flags_pack_qr),
+      cmocka_unit_test(header_flags_pack_opcode),
+      cmocka_unit_test(header_flags_pack_aa),
+      cmocka_unit_test(header_flags_pack_tc),
+      cmocka_unit_test(header_flags_pack_rd),
+      cmocka_unit_test(header_flags_pack_ra),
+      cmocka_unit_test(header_flags_pack_z),
+      cmocka_unit_test(header_flags_pack_rcode),
 
-    cmocka_unit_test(header_flags_unpack_qr),
-    cmocka_unit_test(header_flags_unpack_opcode),
-    cmocka_unit_test(header_flags_unpack_aa),
-    cmocka_unit_test(header_flags_unpack_tc),
-    cmocka_unit_test(header_flags_unpack_rd),
-    cmocka_unit_test(header_flags_unpack_ra),
-    cmocka_unit_test(header_flags_unpack_z),
-    cmocka_unit_test(header_flags_unpack_rcode),
+      cmocka_unit_test(header_flags_unpack_qr),
+      cmocka_unit_test(header_flags_unpack_opcode),
+      cmocka_unit_test(header_flags_unpack_aa),
+      cmocka_unit_test(header_flags_unpack_tc),
+      cmocka_unit_test(header_flags_unpack_rd),
+      cmocka_unit_test(header_flags_unpack_ra),
+      cmocka_unit_test(header_flags_unpack_z),
+      cmocka_unit_test(header_flags_unpack_rcode),
 
-    cmocka_unit_test(header_pack_id),
-    cmocka_unit_test(header_pack_flags),
-    cmocka_unit_test(header_pack_qdcount),
-    cmocka_unit_test(header_pack_ancount),
-    cmocka_unit_test(header_pack_nscount),
-    cmocka_unit_test(header_pack_arcount),
+      cmocka_unit_test(header_pack_id),
+      cmocka_unit_test(header_pack_flags),
+      cmocka_unit_test(header_pack_qdcount),
+      cmocka_unit_test(header_pack_ancount),
+      cmocka_unit_test(header_pack_nscount),
+      cmocka_unit_test(header_pack_arcount),
 
-    cmocka_unit_test(header_unpack_id),
-    cmocka_unit_test(header_unpack_flags),
-    cmocka_unit_test(header_unpack_qdcount),
-    cmocka_unit_test(header_unpack_ancount),
-    cmocka_unit_test(header_unpack_nscount),
-    cmocka_unit_test(header_unpack_arcount),
+      cmocka_unit_test(header_unpack_id),
+      cmocka_unit_test(header_unpack_flags),
+      cmocka_unit_test(header_unpack_qdcount),
+      cmocka_unit_test(header_unpack_ancount),
+      cmocka_unit_test(header_unpack_nscount),
+      cmocka_unit_test(header_unpack_arcount),
+
+      cmocka_unit_test(header_pack_byte_count),
+      cmocka_unit_test(header_unpack_byte_count)
   };
 
   return cmocka_run_group_tests(tests, NULL, NULL);
