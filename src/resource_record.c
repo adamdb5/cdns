@@ -28,7 +28,7 @@
 size_t dns_resource_record_pack(char *bytes, const DNSResourceRecord *record) {
     size_t i = 0;
     char *name_token;
-    char temp_str[strlen(record->name) + 1];
+    char temp_str[512];
 
     strcpy(temp_str, record->name);
     name_token = strtok(temp_str, ".");
@@ -65,9 +65,9 @@ size_t dns_resource_record_unpack(DNSResourceRecord *record, const char *bytes,
     while(bytes[i] != '\0') {
         char part_len = bytes[i++];
 
-        if(part_len & 0b11000000) {
+        if(part_len & 0xC0) {
             is_pointer = 1;
-            offset = htons((part_len & 0b00111111) | (bytes[i++] << 8));
+            offset = htons((part_len & 0x3F) | (bytes[i++] << 8));
             break;
         }
 
@@ -99,6 +99,6 @@ size_t dns_resource_record_unpack(DNSResourceRecord *record, const char *bytes,
 
     memcpy(record->rdata, bytes + i, record->rdlength);
 
-    // TODO: Work out why our reported length is 8 bytes too short
+    /* TODO: Work out why our reported length is 8 bytes too short */
     return i + ptr_i + 8;
 }

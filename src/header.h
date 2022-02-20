@@ -99,4 +99,4 @@ size_t dns_header_pack(char *bytes, const DNSHeader *header);
  */
 size_t dns_header_unpack(DNSHeader *header, const char *bytes);
 
-#endif //CDNS_HEADER_H
+#endif /* CDNS_HEADER_H */

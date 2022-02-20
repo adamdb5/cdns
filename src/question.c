@@ -27,7 +27,7 @@
 size_t dns_question_pack(char *bytes, const DNSQuestion *question) {
     size_t i = 0;
     char *name_token;
-    char temp_str[strlen(question->qname) + 1];
+    char temp_str[512];
 
     strcpy(temp_str, question->qname);
     name_token = strtok(temp_str, ".");

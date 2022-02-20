@@ -67,4 +67,4 @@ void dns_cast_aaaa_to_resource(DNSResourceRecord *resource_record,
 void dns_cast_resource_to_aaaa(DNSAAAARecord *aaaa,
                                const DNSResourceRecord *resource_record);
 
-#endif //CDNS_AAAA_H
+#endif /* CDNS_AAAA_H */

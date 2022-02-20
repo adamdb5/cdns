@@ -58,4 +58,4 @@ size_t dns_message_pack(char *bytes, const DNSMessage *message);
  */
 size_t dns_message_unpack(DNSMessage *message, const char *bytes);
 
-#endif //CDNS_MESSAGE_H
+#endif /* CDNS_MESSAGE_H */

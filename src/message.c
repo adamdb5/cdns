@@ -28,7 +28,7 @@ size_t dns_message_pack(char *bytes, const DNSMessage *message) {
     size_t len = 0;
 
     if(message->header.qdcount > 1)
-        return 0; // Too many questions
+        return 0; /* Too many questions */
 
     len += dns_header_pack(bytes, &message->header);
     len += dns_question_pack(bytes + len, &message->question);
@@ -36,19 +36,20 @@ size_t dns_message_pack(char *bytes, const DNSMessage *message) {
 }
 
 size_t dns_message_unpack(DNSMessage *message, const char *bytes) {
-    size_t len = dns_header_unpack(&message->header, bytes);
-    if(message->header.qdcount > 2)
-        return 1;
+  size_t cnt, len;
 
-    len += dns_question_unpack(&message->question, bytes + len);
+  len = dns_header_unpack(&message->header, bytes);
+  if(message->header.qdcount > 2)
+      return 1;
 
-    // Answers
-    size_t cnt;
-    for(cnt = 0; cnt < message->header.ancount && cnt < 10; cnt++) {
-        DNSResourceRecord  record;
-        memset(&record, 0, sizeof(DNSResourceRecord));
-        len += dns_resource_record_unpack(&record, bytes + len, bytes);
-        memcpy(message->answers + cnt, &record, sizeof(DNSResourceRecord));
-    }
-    return len;
+  len += dns_question_unpack(&message->question, bytes + len);
+
+  /* Answers */
+  for(cnt = 0; cnt < message->header.ancount && cnt < 10; cnt++) {
+      DNSResourceRecord  record;
+      memset(&record, 0, sizeof(DNSResourceRecord));
+      len += dns_resource_record_unpack(&record, bytes + len, bytes);
+      memcpy(message->answers + cnt, &record, sizeof(DNSResourceRecord));
+  }
+  return len;
 }

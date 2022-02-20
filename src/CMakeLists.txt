@@ -6,4 +6,4 @@ add_library(${PROJECT_NAME} STATIC
 
         records/a.c records/a.h
         records/aaaa.c records/aaaa.h
-        main.c)
+        )

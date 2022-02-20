@@ -116,4 +116,4 @@ size_t dns_question_pack(char *bytes, const DNSQuestion *question);
  */
 size_t dns_question_unpack(DNSQuestion *question, const char *bytes);
 
-#endif //CDNS_QUESTION_H
+#endif /* CDNS_QUESTION_H */

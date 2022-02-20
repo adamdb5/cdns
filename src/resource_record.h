@@ -69,4 +69,4 @@ size_t dns_resource_record_pack(char *bytes, const DNSResourceRecord *record);
 size_t dns_resource_record_unpack(DNSResourceRecord *record,
                                   const char *bytes, const char *message_root);
 
-#endif //CDNS_RESOURCE_RECORD_H
+#endif /* CDNS_RESOURCE_RECORD_H */

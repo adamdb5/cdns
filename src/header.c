@@ -37,14 +37,14 @@ uint16_t dns_header_flags_pack(const DNSHeader *header) {
 }
 
 void dns_header_flags_unpack(DNSHeader *header, uint16_t flags) {
-    header->qr = (flags & (0b1 << 15)) >> 15;
-    header->opcode = (flags & (0b1111 << 11)) >> 11;
-    header->aa = (flags & (0b1 << 10)) >> 10;
-    header->tc = (flags & (0b1 << 9)) >> 9;
-    header->rd = (flags & (0b1 << 8)) >> 8;
-    header->ra = (flags & (0b1 << 7)) >> 7;
-    header->z = (flags & (0b111 << 4)) >> 4;
-    header->rcode = flags & 0b1111;
+    header->qr = (flags & (0x1 << 15)) >> 15;
+    header->opcode = (flags & (0xF << 11)) >> 11;
+    header->aa = (flags & (0x1 << 10)) >> 10;
+    header->tc = (flags & (0x1 << 9)) >> 9;
+    header->rd = (flags & (0x1 << 8)) >> 8;
+    header->ra = (flags & (0x1 << 7)) >> 7;
+    header->z = (flags & (0x7 << 4)) >> 4;
+    header->rcode = flags & 0xF;
 }
 
 size_t dns_header_unpack(DNSHeader *header, const char *bytes) {
