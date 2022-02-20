@@ -23,7 +23,7 @@
 #ifndef CDNS_MESSAGE_H
 #define CDNS_MESSAGE_H
 
-#include "test_header.h"
+#include "header.h"
 #include "question.h"
 #include "resource_record.h"
 

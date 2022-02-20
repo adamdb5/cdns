@@ -25,6 +25,8 @@
 #include <setjmp.h>
 #include <cmocka.h>
 
+static void dns_header_test_
+
 static void null_test_success(void **state) {
   (void) state;
 }
