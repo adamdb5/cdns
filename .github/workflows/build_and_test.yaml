@@ -1,7 +1,7 @@
 name: Build and Test
 on: [ push ]
 jobs:
-  Build:
+  build-linux:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -9,6 +9,24 @@ jobs:
 
       - name: Install cmocka
         run: sudo apt install libcmocka-dev
+
+      - name: Create Build files
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build
+
+      - name: Test
+        run: ctest --test-dir build/test --extra-verbose
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Install cmocka
+        run: brew install cmocka
 
       - name: Create Build files
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
