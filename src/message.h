@@ -37,6 +37,13 @@ typedef struct {
 
   DNSResourceRecord answers[10]; /**< The message's answers. Contains
                                       header.ancount answers. */
+
+  DNSResourceRecord authority[10]; /**< The messages's authority records.
+                                        Contains header.nscount records. */
+
+  DNSResourceRecord additional[10]; /**< The messages's additional records.
+                                         Contains header.arcount records. */
+
 } DNSMessage;
 
 /**

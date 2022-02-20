@@ -37,6 +37,14 @@ size_t dns_message_pack(char *bytes, const DNSMessage *message) {
     len += dns_resource_record_pack(bytes + len, message->answers + cnt);
   }
 
+  for (cnt = 0; cnt < message->header.nscount && cnt < 10; cnt++) {
+    len += dns_resource_record_pack(bytes + len, message->authority + cnt);
+  }
+
+  for (cnt = 0; cnt < message->header.arcount && cnt < 10; cnt++) {
+    len += dns_resource_record_pack(bytes + len, message->additional + cnt);
+  }
+
   return len;
 }
 
@@ -55,6 +63,22 @@ size_t dns_message_unpack(DNSMessage *message, const char *bytes) {
     memset(&record, 0, sizeof(DNSResourceRecord));
     len += dns_resource_record_unpack(&record, bytes + len, bytes);
     memcpy(message->answers + cnt, &record, sizeof(DNSResourceRecord));
+  }
+
+  /* Authority */
+  for (cnt = 0; cnt < message->header.nscount && cnt < 10; cnt++) {
+    DNSResourceRecord record;
+    memset(&record, 0, sizeof(DNSResourceRecord));
+    len += dns_resource_record_unpack(&record, bytes + len, bytes);
+    memcpy(message->authority + cnt, &record, sizeof(DNSResourceRecord));
+  }
+
+  /* Additional */
+  for (cnt = 0; cnt < message->header.arcount && cnt < 10; cnt++) {
+    DNSResourceRecord record;
+    memset(&record, 0, sizeof(DNSResourceRecord));
+    len += dns_resource_record_unpack(&record, bytes + len, bytes);
+    memcpy(message->additional + cnt, &record, sizeof(DNSResourceRecord));
   }
   return len;
 }
