@@ -7,6 +7,6 @@ foreach(TEST_FILE IN ITEMS ${TEST_FILES})
     add_executable(${TEST_NAME} ${TEST_FILE})
     add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
 
-    include_directories(${CMOCKA_INCLUDE_DIR})
+    target_include_directories(${TEST_NAME} PRIVATE ${CMOCKA_INCLUDE_DIR})
     target_link_libraries(${TEST_NAME} ${CMOCKA_LIBRARIES})
 endforeach()
