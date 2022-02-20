@@ -24,6 +24,7 @@
 #define CDNS_QUESTION_H
 
 #include <stdint.h>
+#include <stddef.h>
 
 #define TYPE_A 1
 #define TYPE_NS 2
@@ -89,13 +90,13 @@
  * Represents a DNS question.
  */
 typedef struct {
-    char qname[64];  /**< The question's domain name. */
+  char qname[64]; /**< The question's domain name. */
 
-    uint16_t qtype;  /**< The question's type. This can be any TYPE_ or QTYPE_
-                          value. */
+  uint16_t qtype; /**< The question's type. This can be any TYPE_ or QTYPE_
+                       value. */
 
-    uint16_t qclass; /**< The question's class. This can be any CLASS_ or
-                          QCLASS_ value. */
+  uint16_t qclass; /**< The question's class. This can be any CLASS_ or
+                        QCLASS_ value. */
 } DNSQuestion;
 
 /**

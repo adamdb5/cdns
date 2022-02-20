@@ -23,10 +23,10 @@
 #ifndef CDNS_A_H
 #define CDNS_A_H
 
+#include "../question.h"
+#include "resource_record.h"
 #include <netinet/in.h>
 #include <string.h>
-#include "resource_record.h"
-#include "../question.h"
 
 #define DNS_A_RECORD_ADDRESS_LENGTH 4
 
@@ -34,17 +34,17 @@
  * Represents an A Record, which contains an IPv4 address.
  */
 typedef struct {
-    char name[255];    /**< The name that this record contains an answer for. */
+  char name[255]; /**< The name that this record contains an answer for. */
 
-    uint16_t type;     /**< The type of this record. This should always be
-                            TYPE_A. */
+  uint16_t type; /**< The type of this record. This should always be
+                      TYPE_A. */
 
-    uint16_t class;    /**< The class of this record. This should always be
-                            CLASS_IN. */
+  uint16_t class; /**< The class of this record. This should always be
+                       CLASS_IN. */
 
-    uint16_t ttl;      /**< The time-to-live of this record. */
+  uint16_t ttl; /**< The time-to-live of this record. */
 
-    in_addr_t address; /**< The IPv4 address for the given name. */
+  in_addr_t address; /**< The IPv4 address for the given name. */
 } DNSARecord;
 
 /**

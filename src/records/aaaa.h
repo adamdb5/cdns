@@ -23,10 +23,10 @@
 #ifndef CDNS_AAAA_H
 #define CDNS_AAAA_H
 
+#include "../question.h"
+#include "resource_record.h"
 #include <netinet/in.h>
 #include <string.h>
-#include "resource_record.h"
-#include "../question.h"
 
 #define DNS_AAAA_RECORD_ADDRESS_LENGTH 16
 
@@ -34,18 +34,18 @@
  * Represents an AAAA Record, which contains an IPv6 address.
  */
 typedef struct {
-    char name[255];    /**< The name that this record contains an answer for. */
+  char name[255]; /**< The name that this record contains an answer for. */
 
-    uint16_t type;     /**< The type of this record. This should always be
-                            TYPE_AAAA. */
+  uint16_t type; /**< The type of this record. This should always be
+                      TYPE_AAAA. */
 
-    uint16_t class;    /**< The class of this record. This should always be
-                            CLASS_IN. */
+  uint16_t class; /**< The class of this record. This should always be
+                       CLASS_IN. */
 
-    uint16_t ttl;      /**< The time-to-live of this record. */
+  uint16_t ttl; /**< The time-to-live of this record. */
 
-    uint8_t address[DNS_AAAA_RECORD_ADDRESS_LENGTH]; /**< The IPv6 address for
-                                                          the given name. */
+  uint8_t address[DNS_AAAA_RECORD_ADDRESS_LENGTH]; /**< The IPv6 address for
+                                                        the given name. */
 } DNSAAAARecord;
 
 /**

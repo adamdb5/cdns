@@ -31,12 +31,12 @@
  * Represents a DNS message.
  */
 typedef struct {
-    DNSHeader header;              /**< The message's header. */
+  DNSHeader header; /**< The message's header. */
 
-    DNSQuestion question;          /**< The message's question. */
+  DNSQuestion question; /**< The message's question. */
 
-    DNSResourceRecord answers[10]; /**< The message's answers. Contains
-                                        header.ancount answers. */
+  DNSResourceRecord answers[10]; /**< The message's answers. Contains
+                                      header.ancount answers. */
 } DNSMessage;
 
 /**
@@ -47,7 +47,6 @@ typedef struct {
  * @return The number of bytes packed.
  */
 size_t dns_message_pack(char *bytes, const DNSMessage *message);
-
 
 /**
  * Unpacks a DNS message from bytes.

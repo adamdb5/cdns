@@ -23,28 +23,28 @@
 #ifndef CDNS_RESOURCE_RECORD_H
 #define CDNS_RESOURCE_RECORD_H
 
-#include <stdint.h>
 #include <stddef.h>
+#include <stdint.h>
 
 /**
  * Represents a generic DNS resource record. These can be cast into a record
  * type using the <code>dns_cast_</code> functions.
  */
 typedef struct {
-    char name[255];    /**< The resource record's domain name. */
+  char name[255]; /**< The resource record's domain name. */
 
-    uint16_t type;     /**< The type of this record. This can be any TYPE_
-                            value. This value should be checked before
-                            casting. */
+  uint16_t type; /**< The type of this record. This can be any TYPE_
+                      value. This value should be checked before
+                      casting. */
 
-    uint16_t class;    /**< The class of this record. This can be any CLASS_
-                            value. */
+  uint16_t class; /**< The class of this record. This can be any CLASS_
+                       value. */
 
-    uint32_t ttl;      /**< The time-to-live of this record. */
+  uint32_t ttl; /**< The time-to-live of this record. */
 
-    uint16_t rdlength; /**< The length of the data in this record. */
+  uint16_t rdlength; /**< The length of the data in this record. */
 
-    char rdata[512];   /**< A byte array containing the data for this record. */
+  char rdata[512]; /**< A byte array containing the data for this record. */
 } DNSResourceRecord;
 
 /**
@@ -66,7 +66,7 @@ size_t dns_resource_record_pack(char *bytes, const DNSResourceRecord *record);
  *                     required for record decompression.
  * @return The number of bytes unpacked.
  */
-size_t dns_resource_record_unpack(DNSResourceRecord *record,
-                                  const char *bytes, const char *message_root);
+size_t dns_resource_record_unpack(DNSResourceRecord *record, const char *bytes,
+                                  const char *message_root);
 
 #endif /* CDNS_RESOURCE_RECORD_H */
