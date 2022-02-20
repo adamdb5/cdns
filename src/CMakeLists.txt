@@ -4,6 +4,6 @@ add_library(${PROJECT_NAME} STATIC
         message.c message.h
         resource_record.c resource_record.h
 
-        messages/a.c messages/a.h
-        messages/aaaa.c messages/aaaa.h
+        records/a.c records/a.h
+        records/aaaa.c records/aaaa.h
         main.c)

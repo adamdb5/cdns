@@ -27,8 +27,8 @@
 
 #include "question.h"
 #include "message.h"
-#include "messages/a.h"
-#include "messages/aaaa.h"
+#include "records//a.h"
+#include "records//aaaa.h"
 
 int dns_query(DNSMessage *response, const DNSMessage *message, const char *name_server) {
     int sock;
