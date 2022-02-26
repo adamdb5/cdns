@@ -21,7 +21,6 @@
  */
 
 #include "a.h"
-#include "resource_record.h"
 
 void dns_cast_a_to_resource(DNSResourceRecord *resource_record,
                             const DNSARecord *a) {

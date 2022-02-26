@@ -28,7 +28,8 @@
 #include <arpa/inet.h>
 
 #include "message.h"
-#include "records/a.h"
+#include "a.h"
+#include "aaaa.h"
 
 static void message_pack_header(void **state) {
   DNSMessage message;

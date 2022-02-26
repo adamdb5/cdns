@@ -29,6 +29,8 @@
 #include <netinet/in.h>
 
 #include "question.h"
+#include "aaaa.h"
+#include "a.h"
 
 static void question_pack_qname(void **state) {
   DNSQuestion question;

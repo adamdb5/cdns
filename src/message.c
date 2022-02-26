@@ -21,7 +21,6 @@
  */
 
 #include "message.h"
-#include "resource_record.h"
 #include <string.h>
 
 size_t dns_message_pack(char *bytes, const DNSMessage *message) {

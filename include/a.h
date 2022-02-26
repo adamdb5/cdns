@@ -20,51 +20,51 @@
  * SOFTWARE.
  */
 
-#ifndef CDNS_AAAA_H
-#define CDNS_AAAA_H
+#ifndef CDNS_A_H
+#define CDNS_A_H
 
-#include "../question.h"
+#include "question.h"
 #include "resource_record.h"
 #include <netinet/in.h>
 #include <string.h>
 
-#define DNS_AAAA_RECORD_ADDRESS_LENGTH 16
+#define TYPE_A 1
+#define DNS_A_RECORD_ADDRESS_LENGTH 4
 
 /**
- * Represents an AAAA Record, which contains an IPv6 address.
+ * Represents an A Record, which contains an IPv4 address.
  */
 typedef struct {
   char name[255]; /**< The name that this record contains an answer for. */
 
   uint16_t type; /**< The type of this record. This should always be
-                      TYPE_AAAA. */
+                      TYPE_A. */
 
   uint16_t class; /**< The class of this record. This should always be
                        CLASS_IN. */
 
   uint16_t ttl; /**< The time-to-live of this record. */
 
-  uint8_t address[DNS_AAAA_RECORD_ADDRESS_LENGTH]; /**< The IPv6 address for
-                                                        the given name. */
-} DNSAAAARecord;
+  in_addr_t address; /**< The IPv4 address for the given name. */
+} DNSARecord;
 
 /**
- * Casts a DNSAAAARecord into a generic DNSResourceRecord for packing into a
+ * Casts a DNSARecord into a generic DNSResourceRecord for packing into a
  * message.
  *
  * @param resource_record The resource record to cast to.
- * @param aaaa The aaaa record to cast.
+ * @param a The a record to cast.
  */
-void dns_cast_aaaa_to_resource(DNSResourceRecord *resource_record,
-                               const DNSAAAARecord *aaaa);
+void dns_cast_a_to_resource(DNSResourceRecord *resource_record,
+                            const DNSARecord *a);
 
 /**
- * Casts a generic DNSResourceRecord into a DNSAAAARecord.
+ * Casts a generic DNSResourceRecord into a DNSARecord.
  *
- * @param aaaa The AAAA record to cast to.
+ * @param a The A record to cast to.
  * @param resource_record The resource record to cast.
  */
-void dns_cast_resource_to_aaaa(DNSAAAARecord *aaaa,
-                               const DNSResourceRecord *resource_record);
+void dns_cast_resource_to_a(DNSARecord *a,
+                            const DNSResourceRecord *resource_record);
 
-#endif /* CDNS_AAAA_H */
+#endif /* CDNS_A_H */

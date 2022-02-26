@@ -4,7 +4,7 @@ project(cdns C)
 set(CMAKE_C_STANDARD 90)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pedantic")
 
-include_directories(src)
+include_directories(include)
 
 add_subdirectory(src)
 

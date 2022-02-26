@@ -21,7 +21,6 @@
  */
 
 #include "resource_record.h"
-#include "question.h"
 #include <netinet/in.h>
 #include <string.h>
 
@@ -99,6 +98,5 @@ size_t dns_resource_record_unpack(DNSResourceRecord *record, const char *bytes,
 
   memcpy(record->rdata, bytes + i, record->rdlength);
 
-  /* TODO: Work out why our reported length is 8 bytes too short */
   return i + ptr_i + 8;
 }
