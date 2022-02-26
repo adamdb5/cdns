@@ -67,7 +67,7 @@ static void resource_cast_to_cname(void **state) {
   r.type = TYPE_CNAME;
   r.class = CLASS_IN;
   r.ttl = 300;
-  r.rdlength = 4;
+  r.rdlength = 21;
 
   strcat(r.rdata, "\x05");
   strcat(r.rdata, "cname");
@@ -82,7 +82,7 @@ static void resource_cast_to_cname(void **state) {
   if (c.type != r.type) matching = 0;
   if (c.class != r.class) matching = 0;
   if (c.ttl != r.ttl) matching = 0;
-  if (memcmp(&c.cname, r.rdata, r.rdlength) != 0) matching = 0;
+  if (strcmp(c.cname, "cname.adambruce.net") != 0) matching = 0;
 
   assert_true(matching);
 }

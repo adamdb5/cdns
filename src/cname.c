@@ -40,5 +40,7 @@ void dns_cast_resource_to_cname(DNSCNameRecord *cname,
   cname->type = resource_record->type;
   cname->class = resource_record->class;
   cname->ttl = resource_record->ttl;
-  memcpy(cname->cname, resource_record->rdata, resource_record->rdlength);
+
+  dns_decompress_domain_name(cname->cname, resource_record->rdata,
+                             message_root);
 }
