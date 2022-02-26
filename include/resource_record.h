@@ -69,4 +69,15 @@ size_t dns_resource_record_pack(char *bytes, const DNSResourceRecord *record);
 size_t dns_resource_record_unpack(DNSResourceRecord *record, const char *bytes,
                                   const char *message_root);
 
+/**
+ * Decompresses a compressed domain name.
+ *
+ * @param buffer The buffer to write the decompressed domain name.
+ * @param domain_name The domain name to decompress.
+ * @param message_root A pointer to the message root.
+ * @return The number of bytes read from the domain_name pointer.
+ */
+size_t dns_decompress_domain_name(char *buffer, const char *domain_name,
+                                  const char* message_root);
+
 #endif /* CDNS_RESOURCE_RECORD_H */

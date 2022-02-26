@@ -6,4 +6,5 @@ add_library(${PROJECT_NAME} STATIC
 
         a.c ../include/a.h
         aaaa.c ../include/aaaa.h
-        cname.c ../include/cname.h)
+        cname.c ../include/cname.h
+        soa.c ../include/soa.h)

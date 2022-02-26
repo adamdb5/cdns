@@ -52,15 +52,16 @@ typedef struct {
  * @param cname The CNAME record to cast.
  */
 void dns_cast_cname_to_resource(DNSResourceRecord *resource_record,
-                               const DNSCNameRecord *cname);
+                                const DNSCNameRecord *cname);
 
 /**
- * Casts a generic DNSResourceRecord into a DNSAAAARecord.
+ * Casts a generic DNSResourceRecord into a DNSCNameRecord.
  *
  * @param cname The CNAME record to cast to.
  * @param resource_record The resource record to cast.
  */
 void dns_cast_resource_to_cname(DNSCNameRecord *cname,
-                               const DNSResourceRecord *resource_record);
+                                const DNSResourceRecord *resource_record,
+                                const char *message_root);
 
 #endif /* CDNS_CNAME_H */

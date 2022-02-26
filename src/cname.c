@@ -23,9 +23,9 @@
 #include <string.h>
 #include "cname.h"
 
-void dns_cast_cname_resource(DNSResourceRecord *resource_record,
-                               const DNSCNameRecord *cname) {
-  strcpy(resource_record->name, cname->cname);
+void dns_cast_cname_to_resource(DNSResourceRecord *resource_record,
+                             const DNSCNameRecord *cname) {
+  strcpy(resource_record->name, cname->name);
   resource_record->type = TYPE_CNAME;
   resource_record->class = cname->class;
   resource_record->ttl = cname->ttl;
@@ -34,7 +34,8 @@ void dns_cast_cname_resource(DNSResourceRecord *resource_record,
 }
 
 void dns_cast_resource_to_cname(DNSCNameRecord *cname,
-                               const DNSResourceRecord *resource_record) {
+                                const DNSResourceRecord *resource_record,
+                                const char *message_root) {
   strcpy(cname->name, resource_record->name);
   cname->type = resource_record->type;
   cname->class = resource_record->class;

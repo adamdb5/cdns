@@ -22,6 +22,7 @@
 
 #include "message.h"
 #include <string.h>
+#include <netinet/in.h>
 
 size_t dns_message_pack(char *bytes, const DNSMessage *message) {
   size_t cnt, len;
@@ -81,3 +82,4 @@ size_t dns_message_unpack(DNSMessage *message, const char *bytes) {
   }
   return len;
 }
+

@@ -21,6 +21,7 @@
  */
 
 #include "resource_record.h"
+#include "message.h"
 #include <netinet/in.h>
 #include <string.h>
 
@@ -58,35 +59,9 @@ size_t dns_resource_record_pack(char *bytes, const DNSResourceRecord *record) {
 size_t dns_resource_record_unpack(DNSResourceRecord *record, const char *bytes,
                                   const char *message_root) {
   size_t i = 0;
-  size_t ptr_i = 0;
-  int is_pointer = 0;
-  uint16_t offset;
-  while (bytes[i] != '\0') {
-    char part_len = bytes[i++];
 
-    if (part_len & 0xC0) {
-      is_pointer = 1;
-      offset = htons((part_len & 0x3F) | (bytes[i++] << 8));
-      break;
-    }
+  i += dns_decompress_domain_name(record->name, bytes, message_root);
 
-    strncat(record->name, bytes + i, part_len);
-    i += part_len;
-    strcat(record->name, ".");
-  }
-
-  if (is_pointer) {
-    while (message_root[offset + ptr_i] != '\0') {
-      char part_len = message_root[offset + ptr_i];
-      ptr_i++;
-      strncat(record->name, message_root + offset + ptr_i, part_len);
-      ptr_i += part_len;
-      strcat(record->name, ".");
-    }
-    ptr_i -= 2;
-  }
-
-  record->name[i + ptr_i - 1] = '\0';
   record->type = htons(*(uint16_t *)(bytes + i));
   i += 2;
   record->class = htons(*(uint16_t *)(bytes + i));
@@ -98,5 +73,42 @@ size_t dns_resource_record_unpack(DNSResourceRecord *record, const char *bytes,
 
   memcpy(record->rdata, bytes + i, record->rdlength);
 
-  return i + ptr_i + 8;
+  return i + 8;
 }
+
+size_t dns_decompress_domain_name(char *buffer, const char *domain_name,
+                                  const char* message_root) {
+  size_t i = 0;
+  size_t ptr_i = 0;
+  int is_pointer = 0;
+  uint16_t offset;
+  while (domain_name[i] != '\0') {
+    char part_len = domain_name[i++];
+
+    if (part_len & 0xC0) {
+      is_pointer = 1;
+      offset = htons((part_len & 0x3F) | (domain_name[i++] << 8));
+      break;
+    }
+
+    strncat(buffer, domain_name + i, part_len);
+    i += part_len;
+    strcat(buffer, ".");
+  }
+
+  if (is_pointer) {
+    while (message_root[offset + ptr_i] != '\0') {
+      char part_len = message_root[offset + ptr_i];
+      ptr_i++;
+      strncat(buffer, message_root + offset + ptr_i, part_len);
+      ptr_i += part_len;
+      strcat(buffer, ".");
+    }
+    ptr_i -= 2;
+  }
+
+  buffer[i + ptr_i - 1] = '\0';
+
+  return i;
+}
+
