@@ -8,5 +8,7 @@ Built and tested on Linux and MacOS.
 
 cdns facilitates the marshalling and unmarshalling of DNS messages. 
 
-cdns does not contain any way of sending / receiving messages, however cdns can marshall the message so it is ready to send directly over a socket or via another protocol such a DoT / DoH.
+cdns does not contain any way of sending / receiving messages, instead cdns marshalls the message into a standard DNS data packet.
+
+cdns does not compress any fields.
 
